@@ -9,30 +9,25 @@ import listaValidada from "./http-validacao.js";
 
 const caminho = process.argv;
 //console.log(caminho);
-
 // pegaArquivo(caminho[2]);
 
-function imprimeLista(valida,resultado, identificador=""){
+async function imprimeLista(valida,resultado, identificador=""){
     if(valida){
+        console.log(chalk.yellow('Lista de Links'),
+        chalk.black.bgGreen(identificador),
+        await listaValidada(resultado));
+    }
+    else{
         console.log(chalk.yellow('Lista de Links'),
         chalk.black.bgGreen(identificador),
         listaValidada(resultado));
     }
-else{
-    console.log(chalk.yellow('Lista de Links'),
-        chalk.black.bgGreen(identificador),
-        listaValidada(resultado));
 }
-    
-}
-
 
 async function processaTexto(argumentos){
-    const caminho = argumentos[2];
-    const valida = argumentos[3]==="valida";
-
- 
-
+    const caminho=argumentos[2];
+    const valida = argumentos[3]==="--valida";
+    
     try{
         fs.statSync(caminho)
     }
@@ -56,8 +51,5 @@ async function processaTexto(argumentos){
             imprimeLista(valida,lista,nomeDoArquivo);
         })
     }
-    
-
 }
-
 processaTexto(caminho);
